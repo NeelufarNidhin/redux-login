@@ -9,11 +9,12 @@ function Profile() {
 	const [userData, setUserData] = useState({});
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
-	
-	const [error, setError] = useState();
 	const [status, setStatus] = useState();
-//	const [img, setImg] = useState(null);
+//	const [error, setError] = useState();
+	
+//	const [selectedImage, setSelectedImage] = useState(null);
 
+	
 	const navigate = useNavigate();
 
 	const goBack = () => navigate(-1);
@@ -28,11 +29,11 @@ function Profile() {
         })}
 		useEffect(() => {
 			getUserData();
-			}, []);
+			}, [userData]);
 			
         const handleSubmit = (e) => {
             e.preventDefault();
-    
+			getUserData();
             axios
                 .put(
                     `http://localhost:8000/api/${userData.id}`,
@@ -44,13 +45,11 @@ function Profile() {
                 )
                 .then((response) => {
                     setStatus("Successfully Updated");
-                    getUserData();
-                    // setFirstName("");
-                    // setLastName("");
+                  //  getUserData();
                     
                 })
                 .catch((err) => {
-                    setError(err.message);
+					console.log (err.message);
                 });
         };
 		const [file, setFile] = useState();
@@ -63,6 +62,16 @@ function Profile() {
 		<section>
 			<h1 className="text-center mb-3">Your profile</h1>
 			<div className="d-flex justify-content-between" id="display">
+				<img style={{
+				height:"200px",
+				width:"200px",
+				borderRaduis : "50%",
+			    objectFit:'cover'}}
+				
+				src={ file? file : '../profile-pic.jpeg'} alt=''
+				
+				 />
+				
 				<div>
 					<p>First Name: {userData?.firstName}</p>
 					<p>Last Name: {userData?.lastName}</p>
@@ -72,54 +81,19 @@ function Profile() {
 			</div>
 			<form className="mt-3" id="edit-form" onSubmit={handleSubmit}>
 				{status && <p className="text-success form-text">{status}</p>}
-				{/* <h4>Update Profile</h4>
-				<div className="row">
-					<div className="col-md-2">
-						<label htmlFor="first-name" className="form-label">
-							First Name
-						</label>
-					</div>
-					<div className="col-md-10">
-						<input
-							type="text"
-							id="first-name"
-							className="form-control"
-							value={firstName}
-							onChange={(e) => setFirstName(e.target.value)}
-							required
-						/>
-					</div>
-				</div>
-				<div className="row">
-					<div className="col-md-2">
-						<label className="form-label" htmlFor="last-name">
-							Last Name
-						</label>
-					</div>
-					<div className="col-md-10">
-						<input
-							type="text"
-							id="last-name"
-							className="form-control"
-							value={lastName}
-							onChange={(e) => setLastName(e.target.value)}
-							required
-						/>
-					</div> */}
+				
+						
 
 					<div>
 				<h2>Add Image:</h2>
             <input type="file" onChange={handleChange} />
-            <img src={file} />
+			
+            {/* <img src={file} alt="" /> */}
 			</div>
 
-				{/* </div> */}
-				
-					
-				
-				<button className="btn btn-success" type="submit">
+				{/* <button className="btn btn-success" type="submit">
 					Update
-				</button>
+				</button> */}
 				<button
 					type="button"
 					onClick={goBack}

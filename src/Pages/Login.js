@@ -6,7 +6,7 @@ import { userLogin } from '../actions/authSlice';
 
 function Login() {
 
-  const [userId,setUserId] = useState("");
+ // const [userId,setUserId] = useState("");
   const { auth } = useSelector((state) => state.auth);
     const [email,setEmail] = useState("");
     const [password , setPassword] = useState("");
@@ -16,6 +16,7 @@ function Login() {
 
     const handlesubmit =(e) =>{
         e.preventDefault();
+       
     axios.post('http://localhost:8000/api/login',
     JSON.stringify({email,password}),
     {headers:  { "Content-Type": "application/json" },
@@ -45,13 +46,13 @@ function Login() {
     <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
 
     <div className="form-floating">
-      <input type="email" onChange={(e) => {
+      <input type="email" required onChange={(e) => {
         setEmail(e.target.value)
       }} className="form-control" id="floatingInput" placeholder="name@example.com"/>
       <label htmlFor="floatingInput">Email address</label>
     </div>
     <div className="form-floating">
-      <input type="password" onChange={(e) => {
+      <input type="password" required onChange={(e) => {
         setPassword(e.target.value)
       }} className="form-control" id="floatingPassword" placeholder="Password"/>
       <label htmlFor="floatingPassword">Password</label>

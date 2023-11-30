@@ -1,7 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 function Dashboard() {
    
@@ -9,7 +10,7 @@ function Dashboard() {
 	const [userList, setUserList] = useState([]);
 	const [error, setError] = useState();
 	const [search,setSearch] = useState();
-    const navigate = useNavigate();
+  //  const navigate = useNavigate();
     useEffect(() => {
         getAllUsers()
 	}, []);
@@ -100,8 +101,25 @@ function Dashboard() {
 										<button
 											type="button"
 											className="btn btn-danger w-100"
-											onClick={() => handleDelete(user.id)}
-										>
+											onClick={() =>
+												// handleDelete(user.id)
+												{ confirmAlert({
+													title: 'User Delete',
+													message: 'Are you sure to do this.',
+													buttons: [
+													  {
+														label: 'Yes',
+														onClick: () => handleDelete(user.id)
+													  },
+													  {
+														label: 'No',
+														//onClick: () => alert('Click No')
+													  }
+													]
+											  });
+											}}>
+												
+										
 											Delete
 										</button>
 									)}

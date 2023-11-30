@@ -23,14 +23,14 @@ function Home() {
     useEffect(() => {
 
 	auth &&	getUserData()
-	}, [userData]);
+	}, [userData,auth]);
 	const getUserData = () =>{
 			axios.get(`http://localhost:8000/api/userId${auth?.email}`).then((response)=>{
-				setUserData(response.data).catch((err)=>{
-					console.log(err.message)
-				 })
+				setUserData(response.data)
 				
-			},)
+			}).catch((err)=>{
+				console.log(err.message)
+			 })
 	}
 		
   return (
@@ -39,16 +39,12 @@ function Home() {
      
 			<h1>Home Page</h1>
 			<div className="d-flex flex-column gap-1">
-				{!auth && (
-					<>
-						
-					</>
-				)}
+				
 				{auth && (
 				<>					
 				{auth?.roles[0] === 'User' && (
 					
-					<Link to={`/profile/${userData	}`}>
+					<Link to={`/profile/${userData}`}>
 						<button className="btn btn-primary w-100" type="button">
 							Go to profile
 						</button>
